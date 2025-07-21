@@ -1,12 +1,23 @@
+#!/bin/bash
+set -eux
 # curl -fsSL https://get.docker.com | sudo bash
 # sudo apt install $(cat manual_packages.txt)
-function_base_ins(){
+
+function docker_daemon_sock_issue(){
+# For Debian, The docker installer uses iptables for nat. Unfortunately Debian uses nftables. You can convert the entries over to nftables or just setup Debian to use the legacy iptables.
+sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
+sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+# dockerd, should start fine after switching to iptables-legacy.
+sudo service docker start
+}
+
+function base_ins(){
     # Install golang
     wget https://go.dev/dl/go1.21.13.linux-amd64.tar.gz
     rm -rf /usr/local/go && tar -C /usr/local -xzf go1.21.13.linux-amd64.tar.gz
     echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
     # verify that golang has been installed
-    # export PATH=$PATH:/usr/local/go/bin
+    export PATH=$PATH:/usr/local/go/bin
     . ~/.bashrc && go version
 
     # install dependency
@@ -81,19 +92,19 @@ function criu_ins(){
     mkdir -p /root/downloads && cp /root/criu/criu/criu /root/downloads/switch-criu
 }
 function fun_ins(){
-    cd /root/downloads
+cd /root/downloads
 wget -O pkgs.tar.gz https://cloud.tsinghua.edu.cn/f/4644dbac9e3a4b309c50/?dl=1
 # Note than you cannot change this directory, unless you modify the faasd
 mkdir -p /var/lib/faasd/ && tar xf pkgs.tar.gz -C /var/lib/faasd
 }
 
 function fr_ins(){
-    mkdir /root/faasnap && cd /root/faasnap && git clone https://github.com/switch-container/faasnap.git
+mkdir /root/faasnap && cd /root/faasnap \ && git clone https://github.com/switch-container/faasnap.git
 cd /root/faasnap && \
 wget -O vmlinux https://cloud.tsinghua.edu.cn/f/ef649f94564e4b40a1c2/?dl=1 && \
 wget -O firecracker https://cloud.tsinghua.edu.cn/f/fa90c80489c842608a51/?dl=1 && \
 chmod +x vmlinux firecracker
-
+export PATH=$PATH:/usr/local/go/bin
 # build the faasnap daemon
 go install github.com/go-swagger/go-swagger/cmd/swagger@latest
 cd /root/faasnap/faasnap && /root/go/bin/swagger generate server -f api/swagger.yaml
@@ -140,8 +151,10 @@ apt install python3.10-venv
 cd /root && mkdir venv && cd venv && python3 -m venv faasd-test
 source /root/venv/faasd-test/bin/activate && pip install pyyaml gevent requests pandas numpy matplotlib
 }
-# conf_net
-# criu_ins
-# fun_ins
-# fr_ins
+
+base_ins
+conf_net
+criu_ins
+fun_ins
+fr_ins
 oth_ins
