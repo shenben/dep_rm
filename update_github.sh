@@ -1,5 +1,5 @@
 #!/bin/bash
 set -eux
 git add .
-git commit -m "ip settings"
+git commit -m "network settings"
 git push

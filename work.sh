@@ -5,7 +5,7 @@ set -eux
 # pushd /root
 # git clone https://github.com/shenben/utils.git
 # cd /root/utils
-# bash machine-prepare.sh --mem-pool rdma --nic eth5
+# bash machine-prepare.sh --mem-pool rdma --nic  ibp130s0
 # kill -9 $(ps aux | grep containerd | awk '{print $2}')
 # systemctl stop docker 
 # systemctl stop containerd 
