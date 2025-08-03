@@ -99,7 +99,8 @@ mkdir -p /var/lib/faasd/ && tar xf pkgs.tar.gz -C /var/lib/faasd
 }
 
 function fr_ins(){
-mkdir /root/faasnap && cd /root/faasnap \ && git clone https://github.com/switch-container/faasnap.git
+# rm -rf /root/faasnap
+mkdir /root/faasnap && cd /root/faasnap  && git clone https://github.com/switch-container/faasnap.git
 cd /root/faasnap && \
 wget -O vmlinux https://cloud.tsinghua.edu.cn/f/ef649f94564e4b40a1c2/?dl=1 && \
 wget -O firecracker https://cloud.tsinghua.edu.cn/f/fa90c80489c842608a51/?dl=1 && \
@@ -110,13 +111,13 @@ go install github.com/go-swagger/go-swagger/cmd/swagger@latest
 cd /root/faasnap/faasnap && /root/go/bin/swagger generate server -f api/swagger.yaml
 go get ./... && go build cmd/faasnap-server/main.go
 
-cd /root/faasnap && mkdir -p rootfs && cd rootfs \
+cd /root/faasnap && mkdir -p rootfs && cd rootfs && \
 wget -O debian-nodejs-rootfs.ext4.zip https://cloud.tsinghua.edu.cn/f/0b2144137441475495a3/?dl=1 && \
 wget -O debian-python-rootfs.ext4.zip https://cloud.tsinghua.edu.cn/f/72ba9d8cdaac4abf8856/?dl=1
 apt install unzip && unzip debian-nodejs-rootfs.ext4.zip && unzip debian-python-rootfs.ext4.zip
 
-cd /root/criu && git checkout master && make clean && make -j16 install-criu && \
- cp /root/criu/criu/criu /root/downloads/raw-criu && git checkout switch && make clean
+# cd /root/criu && git checkout master && make clean && make -j16 install-criu && \
+#  cp /root/criu/criu/criu /root/downloads/raw-criu && git checkout switch && make clean
 }
 
 function oth_ins(){
@@ -152,9 +153,9 @@ cd /root && mkdir venv && cd venv && python3 -m venv faasd-test
 source /root/venv/faasd-test/bin/activate && pip install pyyaml gevent requests pandas numpy matplotlib
 }
 
-base_ins
-conf_net
-criu_ins
-fun_ins
+# base_ins
+# conf_net
+# criu_ins
+# fun_ins
 fr_ins
-oth_ins
+# oth_ins

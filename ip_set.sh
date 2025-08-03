@@ -6,7 +6,7 @@ sudo chmod a+w /etc/network/interfaces
 cat <<EOF > /etc/network/interfaces
 auto ibp130s0
 iface ibp130s0 inet static
-    address 192.168.1.101
+    address 172.16.2.1
     netmask 255.255.255.0
     mtu 4092
 EOF

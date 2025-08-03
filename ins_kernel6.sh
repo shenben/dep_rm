@@ -5,7 +5,7 @@
 # sudo chmod 777 /mnt/data -R
 pushd /mnt/data
 sudo apt update
-sudo apt install -y libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf llvm
+sudo apt install  libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf llvm
 git clone https://github.com/switch-container/linux.git
 ln -s $(pwd)/linux $HOME/linux
 cd linux

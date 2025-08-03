@@ -1,15 +1,15 @@
 # !/bin/bash
 set -eux
-# # cd /root/utils
-# rm -rf /root/utils
-# pushd /root
-# git clone https://github.com/shenben/utils.git
 # cd /root/utils
-# bash machine-prepare.sh --mem-pool rdma --nic  ibp130s0
-# kill -9 $(ps aux | grep containerd | awk '{print $2}')
-# systemctl stop docker 
-# systemctl stop containerd 
-# popd
+rm -rf /root/utils
+pushd /root
+git clone https://github.com/shenben/utils.git
+cd /root/utils
+bash machine-prepare.sh --mem-pool rdma --nic  ibp130s0
+kill -9 $(ps aux | grep containerd | awk '{print $2}')
+systemctl stop docker 
+systemctl stop containerd 
+popd
 
 cd /root/test/faasd-testdriver
 # w1, will run about 30 m
