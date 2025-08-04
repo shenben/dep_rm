@@ -153,9 +153,9 @@ cd /root && mkdir venv && cd venv && python3 -m venv faasd-test
 source /root/venv/faasd-test/bin/activate && pip install pyyaml gevent requests pandas numpy matplotlib
 }
 
-# base_ins
-# conf_net
-# criu_ins
-# fun_ins
+base_ins
+conf_net
+criu_ins
+fun_ins
 fr_ins
-# oth_ins
+oth_ins
