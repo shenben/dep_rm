@@ -90,6 +90,10 @@ function criu_ins(){
     make -j16 install-criu
     # the output binary is located at /root/criu/criu/criu and /usr/local/sbin/criu
     mkdir -p /root/downloads && cp /root/criu/criu/criu /root/downloads/switch-criu
+    
+    cd /root/criu && git checkout master && make clean && make -j16 install-criu && \
+    cp /root/criu/criu/criu /root/downloads/raw-criu && git checkout switch && make clean
+
 }
 function fun_ins(){
 cd /root/downloads
@@ -107,8 +111,9 @@ wget -O firecracker https://cloud.tsinghua.edu.cn/f/fa90c80489c842608a51/?dl=1 &
 chmod +x vmlinux firecracker
 export PATH=$PATH:/usr/local/go/bin
 # build the faasnap daemon
+
 go install github.com/go-swagger/go-swagger/cmd/swagger@latest
-cd /root/faasnap/faasnap && /root/go/bin/swagger generate server -f api/swagger.yaml
+cd /root/faasnap/faasnap && ~/go/bin/swagger generate server -f api/swagger.yaml
 go get ./... && go build cmd/faasnap-server/main.go
 
 cd /root/faasnap && mkdir -p rootfs && cd rootfs && \
